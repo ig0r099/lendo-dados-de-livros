@@ -35,8 +35,28 @@ app.get("/register", (requet, response) => {
             return
         }
 
+        response.radirect("/")
+
 
     })
+})
+
+app.get("/book/:id", (request, response) => {
+    const id = request.params.id
+
+    const sql = `
+        SELECT * FROM books
+        WHERE id=${id}
+        `
+
+        conn.query(sql, (error, data) => {
+            if (error) {
+                return console.log(error)
+            }
+            const book = data[0]
+
+            response.render("book", { book })
+        })
 })
 
 app.get("/", (request, response) => {
